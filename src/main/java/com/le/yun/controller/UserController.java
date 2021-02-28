@@ -54,14 +54,15 @@ public class UserController {
     public ResponseMessage getUserInfo() {
         Subject subject = SecurityUtils.getSubject();
         User user = (User)subject.getPrincipal();
-        ResponseMessage responseMessage = new ResponseMessage();
+        ResponseMessage<User> responseMessage = new ResponseMessage<>();
         responseMessage.setCode(Constants.SUCCESS_CODE);
-        responseMessage.setMessage(user);
-        responseMessage.setResult(Constants.SUCCESS);
+        responseMessage.setMessage(Constants.SUCCESS);
+        responseMessage.setResult(user);
+        responseMessage.setSuccess(Boolean.TRUE);
         if (Objects.isNull(user)){
             responseMessage.setCode(Constants.ERROR_CODE);
             responseMessage.setMessage("用户未登录");
-            responseMessage.setResult(Constants.FAILED);
+            responseMessage.setSuccess(Boolean.FALSE);
         }
         log.info("result : {}", JSON.toJSONString(responseMessage));
         return responseMessage;

@@ -33,7 +33,7 @@ public class ShiroLoginFilter extends FormAuthenticationFilter {
             ResponseMessage resultData = new ResponseMessage();
             resultData.setCode(Constants.AUTH_ERROR_CODE);
             resultData.setMessage("登录认证失效，请重新登录!");
-            resultData.setResult("failed");
+            resultData.setSuccess(Boolean.FALSE);
             httpServletResponse.getWriter().write(JSONObject.toJSON(resultData).toString());
         } else {
             /**

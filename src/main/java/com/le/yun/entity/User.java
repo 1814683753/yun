@@ -1,5 +1,7 @@
 package com.le.yun.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -16,6 +18,7 @@ import java.util.List;
  */
 @Data
 @TableName("t_user")
+@ExcelTarget("userEntity")
 public class User implements Serializable {
 
     private static final long serialVersionUID = -8783490657884751608L;
@@ -29,11 +32,13 @@ public class User implements Serializable {
      * 用户姓名
      */
     @TableField(value = "name")
+    @Excel(name = "姓名")
     private String name;
     /**
      * 用户年龄
      */
     @TableField(value = "age")
+    @Excel(name = "年龄")
     private Integer age;
     /**
      * 邮件

@@ -37,28 +37,31 @@ public class LoginController {
     @ResponseBody
     public ResponseMessage login(@RequestBody User userInfo) {
         LOG.info("request : {}",JSON.toJSONString(userInfo));
-        ResponseMessage responseMessage = new ResponseMessage();
+        ResponseMessage<String> responseMessage = new ResponseMessage<>();
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getName(), userInfo.getPassword());
         try {
             subject.login(token);
             responseMessage.setCode(Constants.SUCCESS_CODE);
-            responseMessage.setResult(Constants.SUCCESS);
-            responseMessage.setMessage(subject.getSession().getId().toString());
+            responseMessage.setSuccess(Boolean.TRUE);
+            responseMessage.setResult(subject.getSession().getId().toString());
         } catch (IncorrectCredentialsException e) {
             responseMessage.setCode(Constants.LOGIN_ERROR_CODE);
-            responseMessage.setResult(Constants.FAILED);
+            responseMessage.setSuccess(Boolean.FALSE);
             responseMessage.setMessage("密码错误");
         } catch (LockedAccountException e) {
             responseMessage.setCode(Constants.LOGIN_ERROR_CODE);
-            responseMessage.setResult(Constants.FAILED);
+            responseMessage.setSuccess(Boolean.FALSE);
             responseMessage.setMessage("登录失败，该用户已被冻结");
         } catch (AuthenticationException e) {
             responseMessage.setCode(Constants.LOGIN_ERROR_CODE);
-            responseMessage.setResult(Constants.FAILED);
+            responseMessage.setSuccess(Boolean.FALSE);
             responseMessage.setMessage("登录失败，该用户不存在");
         } catch (Exception e) {
+            responseMessage.setCode(Constants.ERROR_CODE);
+            responseMessage.setMessage("登录失败！" + e.getMessage());
             LOG.error("login error : ",e);
+            responseMessage.setSuccess(Boolean.FALSE);
         }
         LOG.info("result : {}",JSON.toJSONString(responseMessage));
         return responseMessage;

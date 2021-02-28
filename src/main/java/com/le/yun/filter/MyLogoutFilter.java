@@ -33,10 +33,10 @@ public class MyLogoutFilter extends LogoutFilter {
                 subject.logout();
                 httpServletResponse.setCharacterEncoding("UTF-8");
                 httpServletResponse.setContentType("application/json");
-                ResponseMessage resultData = new ResponseMessage();
+                ResponseMessage<String> resultData = new ResponseMessage<>();
                 resultData.setCode(Constants.SUCCESS_CODE);
-                resultData.setMessage("退出成功");
-                resultData.setResult(Constants.SUCCESS);
+                resultData.setResult("退出成功");
+                resultData.setSuccess(Boolean.TRUE);
                 httpServletResponse.getWriter().write(JSONObject.toJSON(resultData).toString());
             }else{
                 super.preHandle(request,response);

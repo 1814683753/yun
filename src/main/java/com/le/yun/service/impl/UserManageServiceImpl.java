@@ -3,7 +3,6 @@ package com.le.yun.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.le.yun.entity.QueryRequestPojo;
 import com.le.yun.entity.QueryResponsePojo;
@@ -14,6 +13,7 @@ import com.le.yun.service.RoleManageService;
 import com.le.yun.service.UserManageService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,10 +73,10 @@ public class UserManageServiceImpl implements UserManageService {
         QueryResponsePojo<User> responsePojo = new QueryResponsePojo<>();
         try {
             Page<User> page = new Page<>();
-            if (StringUtils.isNotEmpty(""+queryRequestPojo.getCurrentPage())){
+            if (null != queryRequestPojo.getCurrentPage()) {
                 page.setCurrent(queryRequestPojo.getCurrentPage());
             }
-            if (StringUtils.isNotEmpty(""+queryRequestPojo.getPageSize())){
+            if (null != queryRequestPojo.getPageSize()) {
                 page.setSize(queryRequestPojo.getPageSize());
             }
             IPage<User> userPage = userMapper.selectPage(page,null);

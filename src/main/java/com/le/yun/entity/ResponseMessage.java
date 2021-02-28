@@ -12,15 +12,16 @@ import java.io.Serializable;
  * @modified By：
  */
 @Data
-public class ResponseMessage implements Serializable {
+public class ResponseMessage<T> implements Serializable {
 
 
     private static final long serialVersionUID = 1153125791509666757L;
 
-    public ResponseMessage(Integer code, Object message, String result) {
+    public ResponseMessage(Integer code, String message, T result, Boolean success) {
         this.code = code;
         this.message = message;
         this.result = result;
+        this.success = success;
     }
 
     public ResponseMessage() {
@@ -29,11 +30,11 @@ public class ResponseMessage implements Serializable {
     /**
      * 成功的结果
      */
-    public final static ResponseMessage SUCCESS = new ResponseMessage(Constants.SUCCESS_CODE,"",Constants.SUCCESS);
+    public final static ResponseMessage<String> SUCCESS = new ResponseMessage<>(Constants.SUCCESS_CODE, "", Constants.SUCCESS, Boolean.TRUE);
     /**
      * 成功的结果
      */
-    public final static ResponseMessage FAILED = new ResponseMessage(Constants.ERROR_CODE,"",Constants.FAILED);
+    public final static ResponseMessage<String> FAILED = new ResponseMessage<>(Constants.ERROR_CODE, "", Constants.FAILED, Boolean.FALSE);
 
     /**
      * 信息编码
@@ -42,9 +43,13 @@ public class ResponseMessage implements Serializable {
     /**
      * 错误信息
      */
-    private Object message;
+    private String message;
     /**
      * 处理结果
      */
-    private String result;
+    private T result;
+    /**
+     * 是否成功
+     */
+    private Boolean success;
 }
